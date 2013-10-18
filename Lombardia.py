@@ -32,69 +32,56 @@ def general_draw(player, opponent, library, graveyard):
         for i in range(3-len(open_card)):
             open_card.append(library.pop())
 
-    if player.APNAP == "AP":
-        if player.type == "human":
-            print(player.hand)
-            print("%sの手札" %player.name)
-            print(open_card)
-            print("公開されたカード")
+
+    if player.type == "human":
+        print(player.hand)
+        print("%sの手札" %player.name)
+        print(open_card)
+        print("公開されたカード")
                 
-            check = 0
-            while check == 0:
-                
-                card = input("手札に加えるカードを選んでください\n")
-                if card in open_card:
-                    check = 1
-                    player.hand.append(card)
+        check = 0
+        while check == 0:      
+            card = input("手札に加えるカードを選んでください\n")
+            if card in open_card:
+                check = 1
+                player.hand.append(card)
+            else:
+                print("公開されたカードの中に%sはありません\n" %card)
 
-                else:
-                    print("公開されたカードの中に%sはありません\n" %card)
-
-            check = 0
-            open_card.remove(card)
-
-        else:
-            card = draw_priority(open_card, player)#実装してない関数です
-            player.hand.append(card)
-            open_card.remove(card)
+        check = 0
+        open_card.remove(card)
 
     else:
-        if player.type == "human":
-            print(player.hand)
-            print("%sの手札" %player.name)
+        card = draw_priority(open_card, player)#実装してない関数です
+        player.hand.append(card)
+        open_card.remove(card)
 
-            print(open_card)
-            print("公開されたカード")
-            check = 0
-
-            while check == 0:
+    if player.type == "human":
+        print(player.hand)
+        print("%sの手札" %player.name)
+        print(open_card)
+        print("公開されたカード")
+        check = 0
+        while check == 0:
+            card = input("手札に加えるカードを選んでください\n")
+            if card in open_card:
+                check = 1
+                player.hand.append(card)    
+            else:
+                print("公開されたカードの中に%sはありません\n" %card)  
                 
-                card = input("手札に加えるカードを選んでください\n")
-                if card in open_card:
-                    check = 1
-                    player.hand.append(card)
-                    
-                else:
-                    print("公開されたカードの中に%sはありません\n" %card)  
-                
-            check = 0
-            open_card.remove(card)
-            graveyard.extend(open_card)
+        check = 0
+        open_card.remove(card)
+        graveyard.extend(open_card)
 
-        else:
-            card = draw_priority(open_card, player.hand, player.point)#実装してない関数です
-            player.hand.append(card)
-            open_card.remove(card)
-            graveyard.extend(open_card)
-            
-
-                    
+    else:
+        card = draw_priority(open_card, player.hand, player.point)#実装してない関数です
+        player.hand.append(card)
+        open_card.remove(card)
+        graveyard.extend(open_card)
+     
     
-                    
-    
-
-
-
+"""
 #アクティブプレイヤー(人間)が手札にカードを加える時の関数
 def draw(player, library, graveyard, open_card, card):
 
@@ -181,7 +168,7 @@ def second_draw(player, graveyard, open_card, card):
     graveyard.extend(open_card)
     return card
 
-
+"""
 
 #手札を見てできる行動を提示する関数
 def action_preview(player,action_list):
@@ -425,15 +412,7 @@ while p1.point < 10 and p2.point < 10:
     if p1.APNAP == "AP":
 
 #カードを引くフェイズ
-        open_card = []        
-        draw(p1, library, graveyard, open_card,card)
-        p1.hand.sort()
-        print("%sの手札" %p1.name)
-        print(p1.hand)
-        second_draw(p2, graveyard, open_card, card)
-        p2.hand.sort()
-        print(p2.hand)
-        print("%sの手札" %p2.name)
+        general_draw(p1, p2, library, graveyard)       
         
 
 #行動フェイズ
