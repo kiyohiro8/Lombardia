@@ -2,8 +2,10 @@
 
 class Player:
 
-    def __init__(self, name, hand, point, APNAP):
+    def __init__(self, name, ptype, hand, point, APNAP):
+        
         self.name = name
+        self.type = ptype
         self.hand = hand
         self.point = point
         self.APNAP = APNAP
