@@ -33,7 +33,7 @@ def general_draw(player, opponent, library, graveyard):
             open_card.append(library.pop())
 
 
-    if player.type == "human":
+    if player.ptype == "human":
         print(player.hand)
         print("%sの手札" %player.name)
         print(open_card)
@@ -52,13 +52,13 @@ def general_draw(player, opponent, library, graveyard):
         open_card.remove(card)
 
     else:
-        card = draw_priority(open_card, player, opponent, library, graveyard)#実装してない関数です
+        card = draw_priority(open_card, player, opponent, library, graveyard)
         player.hand.append(card)
         open_card.remove(card)
 
-    if player.type == "human":
-        print(player.hand)
-        print("%sの手札" %player.name)
+    if opponent.ptype == "human":
+        print(opponent.hand)
+        print("%sの手札" %opponent.name)
         print(open_card)
         print("公開されたカード")
         check = 0
@@ -66,7 +66,7 @@ def general_draw(player, opponent, library, graveyard):
             card = input("手札に加えるカードを選んでください\n")
             if card in open_card:
                 check = 1
-                player.hand.append(card)    
+                opponent.hand.append(card)    
             else:
                 print("公開されたカードの中に%sはありません\n" %card)  
                 
@@ -75,8 +75,8 @@ def general_draw(player, opponent, library, graveyard):
         graveyard.extend(open_card)
 
     else:
-        card = draw_priority(open_card, player.hand, player.point)#実装してない関数です
-        player.hand.append(card)
+        card = draw_priority(open_card, opponent, player, library, graveyard)#実装してない関数です
+        opponent.hand.append(card)
         open_card.remove(card)
         graveyard.extend(open_card)
 
@@ -301,10 +301,11 @@ import random
 random.shuffle(library)
 
 #プレイヤーのインスタンスを作製。player1側が先番になってます。
-from player import Player
+from player import *
+from AI import *
 
-p1 = Player("player1", [], 0, "AP")
-p2 = Player("CPU", [], 0, "NAP")
+p1 = Player("player","human", [], 0, "AP")
+p2 = cpu("COM","cpu", [], 0, "NAP", "redbull")
 
 #初期手札の補充
 for i in range(5):
@@ -324,13 +325,22 @@ while p1.point < 10 and p2.point < 10:
 
 #カードを引くフェイズ
         general_draw(p1, p2, library, graveyard)
+        print(p1.hand)
+        print(p2.hand)
+        p1.APNAP = "NAP"
+        p2.APNAP = "AP"
 
 
 #player2のターン
     else:
-        general_draw(p2, p1, library. graveyard)
-        
+        general_draw(p2, p1, library, graveyard)
 
+        print(p2.hand)
+        print(p1.hand)
+        p1.APNAP = "AP"
+        p2.APNAP = "NAP"
+        
+"""
 #行動フェイズ
         actionkey = 99
         shikyou_reveal = 0
@@ -359,9 +369,7 @@ while p1.point < 10 and p2.point < 10:
                 else:
                     pass
 
-#アクティブプレイヤーの交代            
-        p1.APNAP = "NAP"
-        p2.APNAP = "AP"
+
 
 #CPUのターン        
     else:
@@ -403,7 +411,7 @@ while p1.point < 10 and p2.point < 10:
             
         p2.APNAP = "NAP"
         p1.APNAP = "AP"
-
+"""
 if p1.point >= 10:
     print("player1の勝利です")
 else:

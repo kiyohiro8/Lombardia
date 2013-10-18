@@ -13,7 +13,8 @@ class Player:
     def showinfo(self):
         print(self.point)
 
-class ptype(Player):
+class cpu(Player):
 
-    def __init__(state):
+    def __init__(self, name, ptype, hand, point, APNAP, state):
+        Player.__init__(self, name, ptype, hand, point, APNAP)
         self.state = state
