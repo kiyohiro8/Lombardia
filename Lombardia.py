@@ -52,7 +52,7 @@ def general_draw(player, opponent, library, graveyard):
         open_card.remove(card)
 
     else:
-        card = draw_priority(open_card, player)#実装してない関数です
+        card = draw_priority(open_card, player, opponent, library, graveyard)#実装してない関数です
         player.hand.append(card)
         open_card.remove(card)
 
@@ -79,96 +79,7 @@ def general_draw(player, opponent, library, graveyard):
         player.hand.append(card)
         open_card.remove(card)
         graveyard.extend(open_card)
-     
-    
-"""
-#アクティブプレイヤー(人間)が手札にカードを加える時の関数
-def draw(player, library, graveyard, open_card, card):
 
-    if len(library) >= 3:
-        for i in range(3):
-            open_card.append(library.pop())
-
-    else:
-        open_card.extend(library)
-        reshuffle(library, graveyard)
-        for i in range(3-len(open_card)):
-            open_card.append(library.pop())
-
-    print(player.hand)
-    print("%sの手札" %player.name)
-
-    print(open_card)
-    print("公開されたカード")
-        
-    check = 0
-
-
-    while check == 0:
-        
-        card = input("手札に加えるカードを選んでください\n")
-        if card in open_card:
-            check = 1
-            player.hand.append(card)
-
-        else:
-            print("公開されたカードの中に%sはありません\n" %card)
-
-    check = 0
-    open_card.remove(card)
-
-#アクティブプレイヤー（ＣＰＵ）のドローを行う関数
-def draw_cpu(player, library, graveyard, open_card, card):
-
-    if len(library) >= 3:
-        for i in range(3):
-            open_card.append(library.pop())
-
-    else:
-        open_card.extend(library)
-        reshuffle(library, graveyard)
-        for i in range(3-len(open_card)):
-            open_card.append(library.pop())
-
-    card = draw_priority(open_card, player)#実装してない関数です
-    player.hand.append(card)
-    open_card.remove(card)
-
-#非アクティブプレイヤー(CPU)のドローを行う関数
-def second_draw_cpu(player, graveyard, open_card, card)
-
-    card = draw_priority(open_card, player.hand, player.point)#実装してない関数です
-    player.hand.append(card)
-    open_card.remove(card)
-    graveyard.extend(open_card)
-    
-
-#非アクティブプレイヤー(人間)が手札に加えるときの関数。上のやつと統合できそう。
-def second_draw(player, graveyard, open_card, card):
-
-    print(player.hand)
-    print("%sの手札" %player.name)
-
-    print(open_card)
-    print("公開されたカード")
-    check = 0
-
-    while check == 0:
-        
-        card = input("手札に加えるカードを選んでください\n")
-        if card in open_card:
-            check = 1
-            player.hand.append(card)
-            
-        else:
-            print("公開されたカードの中に%sはありません\n" %card)  
-        
-    check = 0
-    open_card.remove(card)
-    graveyard.extend(open_card)
-    return card
-
-"""
 
 #手札を見てできる行動を提示する関数
 def action_preview(player,action_list):
@@ -412,7 +323,12 @@ while p1.point < 10 and p2.point < 10:
     if p1.APNAP == "AP":
 
 #カードを引くフェイズ
-        general_draw(p1, p2, library, graveyard)       
+        general_draw(p1, p2, library, graveyard)
+
+
+#player2のターン
+    else:
+        general_draw(p2, p1, library. graveyard)
         
 
 #行動フェイズ
