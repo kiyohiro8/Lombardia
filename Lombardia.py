@@ -1,5 +1,3 @@
-
-
 #一応全カードを定義
 all_cards = ["王子","王子","王子","司教","司教","司教","司教","司教",
              "騎士","騎士","騎士","騎士","騎士","騎士","騎士","騎士","騎士","騎士","騎士",
@@ -143,15 +141,18 @@ def action(player, opponent, actionkey, graveyard):
 
 #王子3枚公開    
     if actionkey == "1":
+        print("%sが王子を3枚公開しました" %player.name)
         player.point += 10
 
 #司教3王子2公開
     elif actionkey == "2":
         player.point += 2
+        print("%sが王子2枚と司教3枚を公開しました(2点)" %player.name)
         shikyou_reveal = 1
 
 #司教2王子2公開
     elif actionkey == "3":
+        print("%sが王子2枚と司教2枚を公開しました(1点)" %player.name)
         player.point += 1
         shikyou_reveal = 1
 
