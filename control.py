@@ -1,4 +1,74 @@
-#行動に関する関数をここに格納
+#ゲームの操作に関する関数をここに格納
+
+#捨て札を山札に混ぜて切り直す関数
+def reshuffle(library, graveyard):
+    library.extend(graveyard)
+    graveyard = []
+    random.shuffle(library)    
+
+#一般ドロー関数の定義
+def general_draw(player, opponent, library, graveyard):
+
+    #公開される3枚のカード
+    open_card = []
+    if len(library) >= 3:
+        for i in range(3):
+            open_card.append(library.pop())
+
+    else:
+        open_card.extend(library)
+        reshuffle(library, graveyard)
+        for i in range(3-len(open_card)):
+            open_card.append(library.pop())
+
+
+    if player.ptype == "human":
+        print(player.hand)
+        print("%sの手札" %player.name)
+        print(open_card)
+        print("公開されたカード")
+                
+        check = 0
+        while check == 0:      
+            card = input("手札に加えるカードを選んでください\n")
+            if card in open_card:
+                check = 1
+                player.hand.append(card)
+            else:
+                print("公開されたカードの中に%sはありません\n" %card)
+
+        check = 0
+        open_card.remove(card)
+
+    else:
+        card = draw_priority(open_card, player, opponent, library, graveyard)
+        player.hand.append(card)
+        open_card.remove(card)
+
+    if opponent.ptype == "human":
+        print(opponent.hand)
+        print("%sの手札" %opponent.name)
+        print(open_card)
+        print("公開されたカード")
+        check = 0
+        while check == 0:
+            card = input("手札に加えるカードを選んでください\n")
+            if card in open_card:
+                check = 1
+                opponent.hand.append(card)    
+            else:
+                print("公開されたカードの中に%sはありません\n" %card)  
+                
+        check = 0
+        open_card.remove(card)
+        graveyard.extend(open_card)
+
+    else:
+        card = draw_priority(open_card, opponent, player, library, graveyard)#実装してない関数です
+        opponent.hand.append(card)
+        open_card.remove(card)
+        graveyard.extend(open_card)
+
 
 #王子3枚の公開
 def three_prince(player, opponent, library, graveyard):
@@ -96,11 +166,22 @@ def discard_three_knight(player, opponent, library, graveyard):
 
         else:
             if opponent.hand.count("騎士") >= 2:
-                block = block_tend
-                if block == "0":
+                block = opponent.block_tend
+                if block == 0:
                     for i in range(2):
                         opponent.hand.remove("騎士")
                         graveyard.append("騎士")
+                    attack_success = False
+                else:
+                    pass
+            elif opponent.hand.count("騎士") == 1 and opponent.hand.count("王子") => 2:
+                block = opponent.block_tend
+                if block == 0:
+                    opponent.hand.remove("騎士")
+                    graveyard.append("騎士")
+                    for i in range(2):
+                        opponent.hand.remove("王子")
+                        graveyard.append("王子")
                     attack_success = False
                 else:
                     pass
