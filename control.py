@@ -53,14 +53,44 @@ def discard_three_knight(player, opponent, library, graveyard):
 
         if opponent.ptype == "human":
             if opponent.hand.count("騎士") >= 2:
-                block = input("防御を行いますか？ 0. はい  1. いいえ")
-                if block == "0":
-                    for i in range(2):
+                if opponent.hand.count("王子") >= 2:
+                    block = input("防御しますか？ 0.騎士2枚で防御　1.騎士1枚と王子2枚で防御　2.防御しない")
+                        if block == "0":
+                            for i in range(2):
+                                opponent.hand.remove("騎士")
+                                graveyard.append("騎士")
+                            attack_success = False
+                        elif block == "1":
+                            opponent.hand.remove("騎士")
+                            graveyard.append("騎士")
+                            for i in range(2):
+                                opponent.hand.remove("王子")
+                                graveyard.append("王子")
+                            attack_success = False
+                        else:
+                            pass
+                else:
+                    block = input("防御しますか？ 0.騎士2枚で防御  1.防御しない")
+                    if block == "0":
+                        for i in range(2):
+                            opponent.hand.remove("騎士")
+                            graveyard.append("騎士")
+                        attack_success = False
+                    else:
+                        pass
+
+            elif opponent.hand.count("騎士") == 1 and opponent.hand.count("王子") >= 2:
+                    block = input("防御しますか？ 0.騎士1枚と王子2枚で防御  1.防御しない")
+                    if block == "0":
                         opponent.hand.remove("騎士")
                         graveyard.append("騎士")
-                    attack_success = False
-                else:
-                    pass
+                        for i in range(2):
+                            opponent.hand.remove("王子")
+                            graveyard.append("王子")
+                        attack_success = False
+                    else:
+                        pass
+            
             else:
                 pass
 
