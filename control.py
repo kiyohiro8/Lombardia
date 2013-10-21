@@ -274,4 +274,65 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
         else:
             pass
                       
+#手札を見てできる行動を提示する関数
+def action_preview(player,action_list):
+
+    action_list.append("0. ターンを終了する。\n")
+
+    if player.hand.count("王子") == 3:
+        action_list.append("1. 王子3枚を公開して勝利する。\n")
+
+    elif player.hand.count("王子") == 2:
+        if player.hand.count("司教") >= 3 and shikyou_reveal == "0":
+            action_list.append("2. 司教3枚と王子2枚を公開して2点を得る。\n")
+            action_list.append("3. 司教2枚と王子2枚を公開して1点を得る。\n")
+        elif player.hand.count("司教") == 2:
+            action_list.append("3. 司教2枚と王子2枚を公開して1点を得る。\n")
+        else:
+            pass
+        if player.hand.count("騎士") >= 2:
+            action_list.append("4. 騎士2枚と王子2枚を捨て、相手を攻撃する\n")
+        else:
+            pass
+        if player.hand.count("貴族") >= 3:
+            action_list.append("5. 貴族3枚と王子2枚を捨て、3点を得る。\n")
+            action_list.append("6. 貴族2枚と王子2枚を捨て、2点を得る。\n")
+            action_list.append("7. 貴族1枚と王子2枚を捨て、1点を得る。\n")
+        elif player.hand.count("貴族") == 2:
+            action_list.append("6. 貴族2枚と王子2枚を捨て、2点を得る。\n")
+            action_list.append("7. 貴族1枚と王子2枚を捨て、1点を得る。\n")
+        elif player.hand.count("貴族") == 1:
+            action_list.append("7. 貴族1枚と王子2枚を捨て、1点を得る。\n")
+        else:
+            pass       
+    else:
+        pass
+    
+    if player.hand.count("司教") >= 4 and shikyou_reveal == "0":
+        action_list.append("8. 司教4枚を公開して2点を得る。\n")
+        action_list.append("9. 司教3枚を公開して1点を得る。\n")
+    elif player.hand.count("司教") == 3:
+        action_list.append("9. 司教3枚を公開して1点を得る。\n")
+    else:
+        pass
+    if player.hand.count("騎士") >= 3:
+        action_list.append("10. 騎士3枚を捨て、相手を攻撃する\n")
+    else:
+        pass
+    if player.hand.count("貴族") >= 4:
+        action_list.append("11. 貴族4枚を捨て、3点を得る。\n")
+        action_list.append("12. 貴族3枚を捨て、2点を得る。\n")
+        action_list.append("13. 貴族2枚を捨て、1点を得る。\n")
+    elif player.hand.count("貴族") == 3:
+        action_list.append("12. 貴族3枚を捨て、2点を得る。\n")
+        action_list.append("13. 貴族2枚を捨て、1点を得る。\n")
+    elif player.hand.count("貴族") == 2:
+        action_list.append("13. 貴族2枚を捨て、1点を得る。\n")
+    else:
+        pass       
         
+#入力されたactionkeyによって行動の関数を引っ張り出す関数
+def action(player, opponent, library,graveyard, actionkey):
+    if actionkey == "1":
+        three_prince(player, opponent, library, graveyard)
+    elif actionkey == "2"

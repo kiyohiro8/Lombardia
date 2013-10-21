@@ -10,62 +10,6 @@ library = ["王子","司教","司教","司教","司教",
            "貴族","貴族","貴族","貴族","貴族","貴族","貴族","貴族","貴族"]
 
 
-#手札を見てできる行動を提示する関数
-def action_preview(player,action_list):
-
-    action_list.append("0. ターンを終了する。\n")
-
-    if player.hand.count("王子") == 3:
-        action_list.append("1. 王子3枚を公開して勝利する。\n")
-
-    elif player.hand.count("王子") == 2:
-        if player.hand.count("司教") >= 3 and shikyou_reveal == "0":
-            action_list.append("2. 司教3枚と王子2枚を公開して2点を得る。\n")
-            action_list.append("3. 司教2枚と王子2枚を公開して1点を得る。\n")
-        elif player.hand.count("司教") == 2:
-            action_list.append("3. 司教2枚と王子2枚を公開して1点を得る。\n")
-        else:
-            pass
-        if player.hand.count("騎士") >= 2:
-            action_list.append("4. 騎士2枚と王子2枚を捨て、相手を攻撃する\n")
-        else:
-            pass
-        if player.hand.count("貴族") >= 3:
-            action_list.append("5. 貴族3枚と王子2枚を捨て、3点を得る。\n")
-            action_list.append("6. 貴族2枚と王子2枚を捨て、2点を得る。\n")
-            action_list.append("7. 貴族1枚と王子2枚を捨て、1点を得る。\n")
-        elif player.hand.count("貴族") == 2:
-            action_list.append("6. 貴族2枚と王子2枚を捨て、2点を得る。\n")
-            action_list.append("7. 貴族1枚と王子2枚を捨て、1点を得る。\n")
-        elif player.hand.count("貴族") == 1:
-            action_list.append("7. 貴族1枚と王子2枚を捨て、1点を得る。\n")
-        else:
-            pass       
-    else:
-        pass
-    
-    if player.hand.count("司教") >= 4 and shikyou_reveal == "0":
-        action_list.append("8. 司教4枚を公開して2点を得る。\n")
-        action_list.append("9. 司教3枚を公開して1点を得る。\n")
-    elif player.hand.count("司教") == 3:
-        action_list.append("9. 司教3枚を公開して1点を得る。\n")
-    else:
-        pass
-    if player.hand.count("騎士") >= 3:
-        action_list.append("10. 騎士3枚を捨て、相手を攻撃する\n")
-    else:
-        pass
-    if player.hand.count("貴族") >= 4:
-        action_list.append("11. 貴族4枚を捨て、3点を得る。\n")
-        action_list.append("12. 貴族3枚を捨て、2点を得る。\n")
-        action_list.append("13. 貴族2枚を捨て、1点を得る。\n")
-    elif player.hand.count("貴族") == 3:
-        action_list.append("12. 貴族3枚を捨て、2点を得る。\n")
-        action_list.append("13. 貴族2枚を捨て、1点を得る。\n")
-    elif player.hand.count("貴族") == 2:
-        action_list.append("13. 貴族2枚を捨て、1点を得る。\n")
-    else:
-        pass       
         
 #本文開始
 import random
@@ -86,29 +30,47 @@ for i in range(5):
 for i in range(5):
     p2.hand.append(library.pop())
 
-#空の公開カードなんかを定義しとく
-open_card = []
-card = ""
 
 while p1.point < 10 and p2.point < 10:
 
 #player1のターン
     if p1.APNAP == "AP":
+        if p1.ptype == "human":
 
-#カードを引くフェイズ
-        general_draw(p1, p2, library, graveyard)
-        print(p1.hand)
-        print(p2.hand)
-        p1.APNAP = "NAP"
-        p2.APNAP = "AP"
+            action_list = []
+
+    #カードを引くフェイズ
+            general_draw(p1, p2, library, graveyard)
+            print(p1.hand)
+            action_preview(p1, action_list)
+            actionkey = 99
+            shikyou_reveal = 0
+            while True:
+                action_list = []
+                action_preview(p1,action_list)
+                print("%sの勝利点%s\n%sの勝利点%s\n" %(p1.name, p1.point, p2.name, p2.point))
+                
+                for i in action_list:
+                    print(i)
+                actionkey = input("行動を選んでください(0以下でターン終了)。\n")
+                if actionkey == "0":
+                    break
+                action(p1, p2, actionkey,graveyard)
+                print(p1.hand)
+            shikyou_reveal = 0
+            
+            
+            p1.APNAP = "NAP"
+            p2.APNAP = "AP"
 
 
 #player2のターン
     else:
+
+        action_list = []
+                
         general_draw(p2, p1, library, graveyard)
 
-        print(p2.hand)
-        print(p1.hand)
         p1.APNAP = "AP"
         p2.APNAP = "NAP"
         
