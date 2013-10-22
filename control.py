@@ -79,22 +79,26 @@ def three_prince(player, opponent, library, graveyard):
 def four_bishop(player, opponent, library, graveyard):
     print("%sは4枚の司教を公開しました(2点)" %player.name)
     player.point += 2
+    player.reveal = 1
 
 #司教3枚の公開
 def three_bishop(player, opponent, library, graveyard):
     print("%sは3枚の司教を公開しました(1点)" %player.name)
     player.point += 1
-
+    player.reveal = 1
+    
 #司教3枚と王子2枚の公開
 def three_bishop_two_prince(player, opponent, library, graveyard):
     print("%sは3枚の司教と2枚の王子を公開しました(2点)" %player.name)
     player.point += 2
-
+    player.reveal = 1
+    
 #司教2枚と王子2枚の公開
 def two_bishop_two_prince(player, opponent, library, graveyard):
     print("%sは2枚の司教と2枚の王子を公開しました(1点)" %player.name)
     player.point += 1
-
+    player.reveal = 1
+    
 #貴族n枚捨て
 def discard_noble(player, opponent, library, graveyard, number):
     print("%Sは%i枚の貴族を捨てました(%i点)" %(player.name, number, number-1))
@@ -283,7 +287,7 @@ def action_preview(player,action_list):
         action_list.append("1. 王子3枚を公開して勝利する。\n")
 
     elif player.hand.count("王子") == 2:
-        if player.hand.count("司教") >= 3 and shikyou_reveal == "0":
+        if player.hand.count("司教") >= 3 and player.reveal == 0:
             action_list.append("2. 司教3枚と王子2枚を公開して2点を得る。\n")
             action_list.append("3. 司教2枚と王子2枚を公開して1点を得る。\n")
         elif player.hand.count("司教") == 2:
@@ -308,7 +312,7 @@ def action_preview(player,action_list):
     else:
         pass
     
-    if player.hand.count("司教") >= 4 and shikyou_reveal == "0":
+    if player.hand.count("司教") >= 4 and player.reveal == 0:
         action_list.append("8. 司教4枚を公開して2点を得る。\n")
         action_list.append("9. 司教3枚を公開して1点を得る。\n")
     elif player.hand.count("司教") == 3:
@@ -334,5 +338,77 @@ def action_preview(player,action_list):
 #入力されたactionkeyによって行動の関数を引っ張り出す関数
 def action(player, opponent, library,graveyard, actionkey):
     if actionkey == "1":
-        three_prince(player, opponent, library, graveyard)
-    elif actionkey == "2"
+        if player.hand.count("王子") == 3:
+            three_prince(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "2":
+        if player.hand.count("司教") >= 3 and player.hand.count("王子") >=2 and player.reveal == 0:
+            three_bishop_two_prince(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "3":
+        if player.hand.count("司教") >= 2 and player.hand.count("王子") >=2 and player.reveal == 0:
+            three_bishop_two_prince(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "4":
+        if player.hand.count("騎士") >= 2 and player.hand.count("王子") >= 2:
+            discard_two_knight_two_prince(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "5":
+        if player.hand.count("貴族") >= 3 and  player.hand.count("王子") >= 2:
+            discard_noble_two_prince(player, opponent, library, graveyard, 3)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "6":
+        if player.hand.count("貴族") >= 2 and  player.hand.count("王子") >= 2:
+            discard_noble_two_prince(player, opponent, library, graveyard, 2)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "7":
+        if player.hand.count("貴族") >= 1 and  player.hand.count("王子") >= 2:
+            discard_noble_two_prince(player, opponent, library, graveyard, 1)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "8":
+        if player.hand.count("司教") >= 4 and player.reveal == 0:
+            four_bishop(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "9":
+        if player.hand.count("司教") >= 3 and player.reveal == 0:
+            three_bishop(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "10":
+        if player.hand.count("騎士") >= 3:
+            discard_three_knight(player, opponent, library, graveyard)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "11":
+        if player.hand.count("貴族") >= 4:
+            discard_noble(player, opponent, library, graveyard, 4)
+        else:
+            print("無効なコマンドです")         
+    elif actionkey == "12":
+        if player.hand.count("貴族") >= 3:
+            discard_noble(player, opponent, library, graveyard, 3)
+        else:
+            print("無効なコマンドです")
+    elif actionkey == "13":
+        if player.hand.count("貴族") >= 2:
+            discard_noble(player, opponent, library, graveyard, 2)
+        else:
+            print("無効なコマンドです")
+    else:
+        pass
+            
+    
+            
+    
+            
+            
+        
+            
