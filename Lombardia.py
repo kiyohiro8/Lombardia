@@ -19,9 +19,10 @@ random.shuffle(library)
 #プレイヤーのインスタンスを作製。player1側が先番になってます。
 from player import *
 from AI import *
+from control import *
 
-p1 = Player("player","human", [], 0, "AP")
-p2 = cpu("COM","cpu", [], 0, "NAP", "redbull")
+p1 = Player("player","human", [], 0, "AP", 0)
+p2 = cpu("COM","cpu", [], 0, "NAP", 0, "redbull")
 
 #初期手札の補充
 for i in range(5):
@@ -44,7 +45,7 @@ while p1.point < 10 and p2.point < 10:
             print(p1.hand)
             action_preview(p1, action_list)
             actionkey = 99
-            shikyou_reveal = 0
+
             while True:
                 action_list = []
                 action_preview(p1,action_list)
@@ -52,104 +53,84 @@ while p1.point < 10 and p2.point < 10:
                 
                 for i in action_list:
                     print(i)
-                actionkey = input("行動を選んでください(0以下でターン終了)。\n")
+                actionkey = input("行動を選んでください(0でターン終了)。\n")
                 if actionkey == "0":
                     break
                 action(p1, p2, actionkey,graveyard)
                 print(p1.hand)
-            shikyou_reveal = 0
+            if player.hand.count >= 8:
+               while player.hand > 4:
+                   print(player.hand)
+                   discard = input("捨てるカードを選んでください")
+                   if discard in player.hand:
+                       player.hand.remove(discard)
+                       graveyard.append(discard)
+                   else:
+                       print("手札にあるカードを選んでください")
+        else:
+            general_draw(p1, p2, library, graveyard)
+            action_priority(p1, p2, library, graveyard)
+
+            while player.hand >= 8:
+                discard_priority(p1, p2, library, graveyard)
+                    
+        player.reveal = 0
             
-            
-            p1.APNAP = "NAP"
-            p2.APNAP = "AP"
+        p1.APNAP = "NAP"
+        p2.APNAP = "AP"
+        
 
 
 #player2のターン
     else:
+        if p2.ptype == "human":
 
-        action_list = []
-                
-        general_draw(p2, p1, library, graveyard)
-
-        p1.APNAP = "AP"
-        p2.APNAP = "NAP"
-        
-"""
-#行動フェイズ
-        actionkey = 99
-        shikyou_reveal = 0
-        while True:
             action_list = []
-            action_preview(p1,action_list)
-            print("%sの勝利点%s\n%sの勝利点%s\n" %(p1.name, p1.point, p2.name, p2.point))
-            
-            for i in action_list:
-                print(i)
-            actionkey = input("行動を選んでください(0以下でターン終了)。\n")
-            if actionkey == "0":
-                break
-            action(p1, p2, actionkey,graveyard)
+
+    #カードを引くフェイズ
+            general_draw(p2, p1, library, graveyard)
             print(p1.hand)
-        shikyou_reveal = 0
+            action_preview(p2, action_list)
+            actionkey = 99
 
-#ディスカードフェイズ
-        if len(p1.hand) > 7:
-            while len(p1.hand) > 4:
+            while True:
+                action_list = []
+                action_preview(p1,action_list)
+                print("%sの勝利点%s\n%sの勝利点%s\n" %(p2.name, p2.point, p1.name, p1.point))
+                
+                for i in action_list:
+                    print(i)
+                actionkey = input("行動を選んでください(0でターン終了)。\n")
+                if actionkey == "0":
+                    break
+                action(p2, p1, actionkey,graveyard)
                 print(p1.hand)
-                discard = input("手札が8枚以上なので、4枚になるまで捨ててください。\n")
-                if discard in p1.hand:
-                    p1.hand.remove(discard)
-                    graveyard.append(discard)
-                else:
-                    pass
+            if player.hand.count >= 8:
+               while player.hand > 4:
+                   print(player.hand)
+                   discard = input("捨てるカードを選んでください")
+                   if discard in player.hand:
+                       player.hand.remove(discard)
+                       graveyard.append(discard)
+                   else:
+                       print("手札にあるカードを選んでください")
+        else:
+            general_draw(p2, p1, library, graveyard)
+            action_priority(p2, p1, library, graveyard)
 
-
-
-#CPUのターン        
-    else:
-        
-        open_card = []        
-        draw(p2, library, graveyard, open_card,card)
-        p2.hand.sort()
-        print(p2.hand)
-        print("%sの手札" %p2.name)
-        second_draw(p1, graveyard, open_card, card)
-        p1.hand.sort()
-        print("%sの手札" %p1.name)
-        print(p1.hand)
-
-        actionkey = 99
-        shikyou_reveal = 0
-        while True:
-            action_list = []
-            action_preview(p2,action_list)
-            print("%sの勝利点%s\n%sの勝利点%s\n" %(p1.name, p1.point, p2.name, p2.point))
-            for i in action_list:
-                print(i)
-            actionkey = input("行動を選んでください(0以下でターン終了)。\n")
-            if actionkey == "0":
-                break
-            action(p2, p1, actionkey, graveyard)
-            print(p2.hand)
-        shikyou_reveal = 0
-
-        if len(p2.hand) > 7:
-            while len(p2.hand) > 4:
-                print(p2.hand)
-                discard = input("手札が8枚以上なので、4枚になるまで捨ててください。\n")
-                if discard in p2.hand:
-                    p2.hand.remove(discard)
-                    graveyard.append(discard)
-                else:
-                    pass
+            while player.hand >= 8:
+                discard_priority(p2, p1, library, graveyard)
+                    
+        player.reveal = 0
             
         p2.APNAP = "NAP"
         p1.APNAP = "AP"
-"""
+        
+
 if p1.point >= 10:
-    print("player1の勝利です")
+    print("%sの勝利です" %p1.name)
 else:
-    print("player2の勝利です")
+    print("%2の勝利です" %p2.name)
         
 
 
