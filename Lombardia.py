@@ -16,13 +16,14 @@ import random
 
 random.shuffle(library)
 
-#プレイヤーのインスタンスを作製。player1側が先番になってます。
+
 from player import *
 from AI import *
 from control import *
 
+#プレイヤーのインスタンスを作製。player1側が先番になってます。
 p1 = Player("player","human", [], 0, "AP", 0)
-p2 = cpu("COM","cpu", [], 0, "NAP", 0, "redbull")
+p2 = Com("COM","cpu", [], 0, "NAP", 0, "redbull")
 
 #初期手札の補充
 for i in range(5):
@@ -58,12 +59,12 @@ while p1.point < 10 and p2.point < 10:
                     break
                 action(p1, p2, actionkey,graveyard)
                 print(p1.hand)
-            if player.hand.count >= 8:
-               while player.hand > 4:
-                   print(player.hand)
+            if p1.hand.count >= 8:
+               while p1.hand > 4:
+                   print(p1.hand)
                    discard = input("捨てるカードを選んでください")
-                   if discard in player.hand:
-                       player.hand.remove(discard)
+                   if discard in p1.hand:
+                       p1.hand.remove(discard)
                        graveyard.append(discard)
                    else:
                        print("手札にあるカードを選んでください")
@@ -71,10 +72,10 @@ while p1.point < 10 and p2.point < 10:
             general_draw(p1, p2, library, graveyard)
             action_priority(p1, p2, library, graveyard)
 
-            while player.hand >= 8:
+            while len(p1.hand) >= 8:
                 discard_priority(p1, p2, library, graveyard)
                     
-        player.reveal = 0
+        p1.reveal = 0
             
         p1.APNAP = "NAP"
         p2.APNAP = "AP"
@@ -105,12 +106,12 @@ while p1.point < 10 and p2.point < 10:
                     break
                 action(p2, p1, actionkey,graveyard)
                 print(p1.hand)
-            if player.hand.count >= 8:
-               while player.hand > 4:
-                   print(player.hand)
+            if p2.hand.count >= 8:
+               while p2.hand > 4:
+                   print(p2.hand)
                    discard = input("捨てるカードを選んでください")
-                   if discard in player.hand:
-                       player.hand.remove(discard)
+                   if discard in p2.hand:
+                       p2.hand.remove(discard)
                        graveyard.append(discard)
                    else:
                        print("手札にあるカードを選んでください")
@@ -118,10 +119,10 @@ while p1.point < 10 and p2.point < 10:
             general_draw(p2, p1, library, graveyard)
             action_priority(p2, p1, library, graveyard)
 
-            while player.hand >= 8:
+            while len(p2.hand) >= 8:
                 discard_priority(p2, p1, library, graveyard)
                     
-        player.reveal = 0
+        p2.reveal = 0
             
         p2.APNAP = "NAP"
         p1.APNAP = "AP"

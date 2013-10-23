@@ -9,6 +9,8 @@ def reshuffle(library, graveyard):
 #一般ドロー関数の定義
 def general_draw(player, opponent, library, graveyard):
 
+    from AI import draw_priority
+
     #公開される3枚のカード
     open_card = []
     if len(library) >= 3:
@@ -64,7 +66,7 @@ def general_draw(player, opponent, library, graveyard):
         graveyard.extend(open_card)
 
     else:
-        card = draw_priority(open_card, opponent, player, library, graveyard)#実装してない関数です
+        card = draw_priority(open_card, opponent, player, library, graveyard)
         opponent.hand.append(card)
         open_card.remove(card)
         graveyard.extend(open_card)
@@ -129,20 +131,20 @@ def discard_three_knight(player, opponent, library, graveyard):
             if opponent.hand.count("騎士") >= 2:
                 if opponent.hand.count("王子") >= 2:
                     block = input("防御しますか？ 0.騎士2枚で防御　1.騎士1枚と王子2枚で防御　2.防御しない")
-                        if block == "0":
-                            for i in range(2):
-                                opponent.hand.remove("騎士")
-                                graveyard.append("騎士")
-                            attack_success = False
-                        elif block == "1":
+                    if block == "0":
+                        for i in range(2):
                             opponent.hand.remove("騎士")
                             graveyard.append("騎士")
-                            for i in range(2):
-                                opponent.hand.remove("王子")
-                                graveyard.append("王子")
-                            attack_success = False
-                        else:
-                            pass
+                        attack_success = False
+                    elif block == "1":
+                        opponent.hand.remove("騎士")
+                        graveyard.append("騎士")
+                        for i in range(2):
+                            opponent.hand.remove("王子")
+                            graveyard.append("王子")
+                        attack_success = False
+                    else:
+                        pass
                 else:
                     block = input("防御しますか？ 0.騎士2枚で防御  1.防御しない")
                     if block == "0":
@@ -178,7 +180,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                     attack_success = False
                 else:
                     pass
-            elif opponent.hand.count("騎士") == 1 and opponent.hand.count("王子") => 2:
+            elif opponent.hand.count("騎士") == 1 and opponent.hand.count("王子") >= 2:
                 block = opponent.block_tend
                 if block == 0:
                     opponent.hand.remove("騎士")
@@ -193,17 +195,17 @@ def discard_three_knight(player, opponent, library, graveyard):
         if attack_success == True:
             if player.ptype == "human":
                     while check == 0:
-                    discard_type = input("どのカードを捨てさせますか？\n")
-                    if discard_type in opponent.hand:
-                        player.point += min(opponent.point, opponent.hand.count(discard_type))
-                        opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
-                        for i in range(opponent.hand.count(discard_type)):
-                            opponent.hand.remove(discard_type)
-                            graveyard.append(discard_type)
-                        check = 1
-                            
-                    else:
-                        print("手札にあるカードの中から選んでください。\n")
+                        discard_type = input("どのカードを捨てさせますか？\n")
+                        if discard_type in opponent.hand:
+                            player.point += min(opponent.point, opponent.hand.count(discard_type))
+                            opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
+                            for i in range(opponent.hand.count(discard_type)):
+                                opponent.hand.remove(discard_type)
+                                graveyard.append(discard_type)
+                            check = 1
+                                
+                        else:
+                            print("手札にあるカードの中から選んでください。\n")
 
             else:
                 discard_type = attack_priority(player, opponent, library, graveyard)
@@ -255,17 +257,17 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
         if attack_success == True:
             if player.ptype == "human":
                     while check == 0:
-                    discard_type = input("どのカードを捨てさせますか？\n")
-                    if discard_type in opponent.hand:
-                        player.point += min(opponent.point, opponent.hand.count(discard_type))
-                        opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
-                        for i in range(opponent.hand.count(discard_type)):
-                            opponent.hand.remove(discard_type)
-                            graveyard.append(discard_type)
-                        check = 1
-                            
-                    else:
-                        print("手札にあるカードの中から選んでください。\n")
+                        discard_type = input("どのカードを捨てさせますか？\n")
+                        if discard_type in opponent.hand:
+                            player.point += min(opponent.point, opponent.hand.count(discard_type))
+                            opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
+                            for i in range(opponent.hand.count(discard_type)):
+                                opponent.hand.remove(discard_type)
+                                graveyard.append(discard_type)
+                            check = 1
+                                
+                        else:
+                            print("手札にあるカードの中から選んでください。\n")
 
             else:
                 discard_type = attack_priority(player, opponent, library, graveyard)

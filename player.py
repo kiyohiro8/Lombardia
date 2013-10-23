@@ -12,10 +12,12 @@ class Player:
         self.reveal = reveal
 
     def showinfo(self):
-        print("%s 手札:%i枚 勝利点: %i点" %(self.name, len(self.hand), self.point)
+        print("%s 手札:%i枚 勝利点: %i点" %(self.name, len(self.hand), self.point))
 
-class cpu(Player):
+
+class Com(Player):
 
     def __init__(self, name, ptype, hand, point, APNAP, reveal, state):
-        Player.__init__(self, name, ptype, hand, point, APNAP)
+
+        Player.__init__(self, name, ptype, hand, point, APNAP, reveal)
         self.state = state
