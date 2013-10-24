@@ -59,7 +59,7 @@ while p1.point < 10 and p2.point < 10:
                     break
                 action(p1, p2, actionkey,graveyard)
                 print(p1.hand)
-            if p1.hand.count >= 8:
+            if len(p1.hand) >= 8:
                while p1.hand > 4:
                    print(p1.hand)
                    discard = input("捨てるカードを選んでください")
@@ -104,9 +104,9 @@ while p1.point < 10 and p2.point < 10:
                 actionkey = input("行動を選んでください(0でターン終了)。\n")
                 if actionkey == "0":
                     break
-                action(p2, p1, actionkey,graveyard)
+                action(p2, p1, actionkey, graveyard)
                 print(p1.hand)
-            if p2.hand.count >= 8:
+            if len(p2.hand) >= 8:
                while p2.hand > 4:
                    print(p2.hand)
                    discard = input("捨てるカードを選んでください")

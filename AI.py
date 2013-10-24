@@ -54,6 +54,8 @@ def attack_priority(player, opponent, library, graveyard):
 
 def action_priority(player, opponent, library, graveyard):
 
+    from control import three_prince, four_bishop, three_bishop, three_bishop_two_prince,  two_bishop_two_prince,  discard_noble,  discard_noble_two_prince, discard_three_knight, discard_two_knight_two_prince
+
     #盲目思考
     if player.state == "redbull":
         if player.hand.count("王子") == 3:

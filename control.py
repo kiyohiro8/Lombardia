@@ -338,7 +338,7 @@ def action_preview(player,action_list):
         pass       
         
 #入力されたactionkeyによって行動の関数を引っ張り出す関数
-def action(player, opponent, library,graveyard, actionkey):
+def action(player, opponent, actionkey, graveyard):
     if actionkey == "1":
         if player.hand.count("王子") == 3:
             three_prince(player, opponent, library, graveyard)
