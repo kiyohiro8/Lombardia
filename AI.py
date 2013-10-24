@@ -21,16 +21,14 @@ def draw_priority(open_card, player, opponent, library, graveyard):
 
 def block_tend(player, opponent, library, graveyard):
 
-    block_tend = 1
-
     #盲目思考
     if player.state == "redbull":
         if player.hand.count("騎士") >= 2:
-            block_tend = 0
+            return 0
         elif player.hand.count("騎士") == 1 and player.hand.count("王子") >= 2:
-            block_tend = 0
+            return 0
         else:
-            pass
+            return 1
 
 def attack_priority(player, opponent, library, graveyard):
 

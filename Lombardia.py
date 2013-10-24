@@ -131,7 +131,7 @@ while p1.point < 10 and p2.point < 10:
 if p1.point >= 10:
     print("%sの勝利です" %p1.name)
 else:
-    print("%2の勝利です" %p2.name)
+    print("%sの勝利です" %p2.name)
         
 
 

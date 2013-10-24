@@ -120,7 +120,9 @@ def discard_noble_two_prince(player, opponent, library, graveyard, number):
 #騎士3枚捨てて攻撃
 def discard_three_knight(player, opponent, library, graveyard):
 
-        print("%sは3枚の騎士を捨てて攻撃しました")
+        from AI import block_tend
+
+        print("%sは3枚の騎士を捨てて攻撃しました" %player.name)
         for i in range(3):
             player.hand.remove("騎士")
             graveyard.append("騎士")
@@ -172,7 +174,7 @@ def discard_three_knight(player, opponent, library, graveyard):
 
         else:
             if opponent.hand.count("騎士") >= 2:
-                block = opponent.block_tend
+                block = block_tend(opponent, player, library, graveyard)
                 if block == 0:
                     for i in range(2):
                         opponent.hand.remove("騎士")
@@ -181,7 +183,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                 else:
                     pass
             elif opponent.hand.count("騎士") == 1 and opponent.hand.count("王子") >= 2:
-                block = opponent.block_tend
+                block = block_tend(opponent, player, library, graveyard)
                 if block == 0:
                     opponent.hand.remove("騎士")
                     graveyard.append("騎士")
@@ -194,6 +196,7 @@ def discard_three_knight(player, opponent, library, graveyard):
 
         if attack_success == True:
             if player.ptype == "human":
+                    check = 0
                     while check == 0:
                         discard_type = input("どのカードを捨てさせますか？\n")
                         if discard_type in opponent.hand:
@@ -221,7 +224,9 @@ def discard_three_knight(player, opponent, library, graveyard):
 #騎士2枚王子2枚捨てて攻撃
 def discard_two_knight_two_prince(player, opponent, library, graveyard):
 
-        print("%sは3枚の騎士を捨てて攻撃しました")
+        from AI import block_tend
+
+        print("%sは3枚の騎士を捨てて攻撃しました" %player.name)
         for i in 3:
             player.hand.remove("騎士")
             graveyard.append("騎士")
@@ -245,7 +250,7 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
 
         else:
             if opponent.hand.count("騎士") >= 2:
-                block = block_tend
+                block = block_tend(opponent, player, library, graveyard)
                 if block == "0":
                     for i in range(2):
                         opponent.hand.remove("騎士")
@@ -256,6 +261,7 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
 
         if attack_success == True:
             if player.ptype == "human":
+                    check = 0
                     while check == 0:
                         discard_type = input("どのカードを捨てさせますか？\n")
                         if discard_type in opponent.hand:
