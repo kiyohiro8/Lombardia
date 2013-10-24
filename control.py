@@ -103,17 +103,17 @@ def two_bishop_two_prince(player, opponent, library, graveyard):
     
 #貴族n枚捨て
 def discard_noble(player, opponent, library, graveyard, number):
-    print("%Sは%i枚の貴族を捨てました(%i点)" %(player.name, number, number-1))
+    print("%sは%i枚の貴族を捨てました(%i点)" %(player.name, number, number-1))
     player.point += number - 1
-    for i in number:
+    for i in range(number):
         player.hand.remove("貴族")
         graveyard.append("貴族")
 
 #貴族n枚と王子2枚捨て
 def discard_noble_two_prince(player, opponent, library, graveyard, number):
-    print("%Sは%i枚の貴族と2枚の王子を捨てました(%i点)" %(player.name, number, number))
+    print("%sは%i枚の貴族と2枚の王子を捨てました(%i点)" %(player.name, number, number))
     player.point += number - 1
-    for i in number:
+    for i in range(number):
         player.hand.remove("貴族")
         graveyard.append("貴族")
 
@@ -121,7 +121,7 @@ def discard_noble_two_prince(player, opponent, library, graveyard, number):
 def discard_three_knight(player, opponent, library, graveyard):
 
         print("%sは3枚の騎士を捨てて攻撃しました")
-        for i in 3:
+        for i in range(3):
             player.hand.remove("騎士")
             graveyard.append("騎士")
 
@@ -338,7 +338,7 @@ def action_preview(player,action_list):
         pass       
         
 #入力されたactionkeyによって行動の関数を引っ張り出す関数
-def action(player, opponent, actionkey, graveyard):
+def action(player, opponent, library, graveyard, actionkey):
     if actionkey == "1":
         if player.hand.count("王子") == 3:
             three_prince(player, opponent, library, graveyard)
