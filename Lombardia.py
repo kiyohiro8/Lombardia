@@ -62,7 +62,7 @@ while p1.point < 10 and p2.point < 10:
                 action(p1, p2, library, graveyard, actionkey)
                 print(p1.hand)
             if len(p1.hand) >= 8:
-               while p1.hand > 4:
+               while len(p1.hand) > 4:
                    print(p1.hand)
                    discard = input("捨てるカードを選んでください")
                    if discard in p1.hand:
@@ -111,7 +111,7 @@ while p1.point < 10 and p2.point < 10:
                 action(p2, p1, library, graveyard, actionkey)
                 print(p1.hand)
             if len(p2.hand) >= 8:
-               while p2.hand > 4:
+               while len(p2.hand) > 4:
                    print(p2.hand)
                    discard = input("捨てるカードを選んでください")
                    if discard in p2.hand:

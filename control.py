@@ -19,7 +19,8 @@ def general_draw(player, opponent, library, graveyard):
             open_card.append(library.pop())
 
     else:
-        open_card.extend(library)
+        while len(library) > 0:
+            open_card.append(library.pop())
         reshuffle(library, graveyard)
         for i in range(3-len(open_card)):
             open_card.append(library.pop())
@@ -37,11 +38,9 @@ def general_draw(player, opponent, library, graveyard):
             if card in open_card:
                 check = 1
                 player.hand.append(card)
+                open_card.remove(card)
             else:
-                print("公開されたカードの中に%sはありません\n" %card)
-
-        check = 0
-        open_card.remove(card)
+                print("公開されたカードの中に%sはありません\n" %card) 
 
     else:
         card = draw_priority(open_card, player, opponent, library, graveyard)
@@ -59,12 +58,11 @@ def general_draw(player, opponent, library, graveyard):
             if card in open_card:
                 check = 1
                 opponent.hand.append(card)    
+                open_card.remove(card)
+                graveyard.extend(open_card)
             else:
                 print("公開されたカードの中に%sはありません\n" %card)  
                 
-        check = 0
-        open_card.remove(card)
-        graveyard.extend(open_card)
 
     else:
         card = draw_priority(open_card, opponent, player, library, graveyard)
@@ -114,6 +112,9 @@ def discard_noble(player, opponent, library, graveyard, number):
 def discard_noble_two_prince(player, opponent, library, graveyard, number):
     print("%sは%i枚の貴族と2枚の王子を捨てました(%i点)" %(player.name, number, number))
     player.point += number - 1
+    for i in range(2):
+        player.hand.remove("王子")
+        graveyard.append("王子")
     for i in range(number):
         player.hand.remove("貴族")
         graveyard.append("貴族")
@@ -235,7 +236,7 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
         from AI import block_tend
 
         print("%sは騎士2枚と王子2枚を捨てて攻撃しました" %player.name)
-        for i in 3:
+        for i in range(2):
             player.hand.remove("騎士")
             graveyard.append("騎士")
             player.hand.remove("王子")
