@@ -51,7 +51,9 @@ while p1.point < 10 and p2.point < 10:
                 action_list = []
                 action_preview(p1,action_list)
                 print("%sの勝利点%s\n%sの勝利点%s\n" %(p1.name, p1.point, p2.name, p2.point))
-                
+                p1.showinfo
+                p2.showinfo
+                p1.hand.sort
                 for i in action_list:
                     print(i)
                 actionkey = input("行動を選んでください(0でターン終了)。\n")
@@ -98,7 +100,9 @@ while p1.point < 10 and p2.point < 10:
                 action_list = []
                 action_preview(p1,action_list)
                 print("%sの勝利点%s\n%sの勝利点%s\n" %(p2.name, p2.point, p1.name, p1.point))
-                
+                p2.showinfo
+                p1.showinfo
+                p2.hand.sort
                 for i in action_list:
                     print(i)
                 actionkey = input("行動を選んでください(0でターン終了)。\n")

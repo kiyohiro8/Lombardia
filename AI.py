@@ -79,10 +79,10 @@ def action_priority(player, opponent, library, graveyard):
         else:
             pass
 
-def discard_priority(p1, p2, library, graveyard):
+def discard_priority(player, opponent, library, graveyard):
 
     #盲目思考
-    if player.state =="redbull":
+    if player.state == "redbull":
         if "貴族" in player.hand:
             player.hand.remove("貴族")
             graveyard.append("貴族")

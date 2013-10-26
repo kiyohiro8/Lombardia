@@ -2,6 +2,7 @@
 
 #捨て札を山札に混ぜて切り直す関数
 def reshuffle(library, graveyard):
+    import random
     library.extend(graveyard)
     graveyard = []
     random.shuffle(library)    
@@ -138,6 +139,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                             opponent.hand.remove("騎士")
                             graveyard.append("騎士")
                         attack_success = False
+                        print("%sは騎士2枚を捨てて防御しました" %opponent.name)
                     elif block == "1":
                         opponent.hand.remove("騎士")
                         graveyard.append("騎士")
@@ -145,6 +147,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                             opponent.hand.remove("王子")
                             graveyard.append("王子")
                         attack_success = False
+                        print("%sは騎士1枚と王子2枚を捨てて防御しました" %opponent.name)
                     else:
                         pass
                 else:
@@ -154,6 +157,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                             opponent.hand.remove("騎士")
                             graveyard.append("騎士")
                         attack_success = False
+                        print("%sは騎士2枚を捨てて防御しました" %opponent.name)
                     else:
                         pass
 
@@ -166,6 +170,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                             opponent.hand.remove("王子")
                             graveyard.append("王子")
                         attack_success = False
+                        print("%sは騎士1枚と王子2枚を捨てて防御しました" %opponent.name)
                     else:
                         pass
             
@@ -180,6 +185,7 @@ def discard_three_knight(player, opponent, library, graveyard):
                         opponent.hand.remove("騎士")
                         graveyard.append("騎士")
                     attack_success = False
+                    print("%sは騎士2枚を捨てて防御しました" %opponent.name)
                 else:
                     pass
             elif opponent.hand.count("騎士") == 1 and opponent.hand.count("王子") >= 2:
@@ -191,24 +197,26 @@ def discard_three_knight(player, opponent, library, graveyard):
                         opponent.hand.remove("王子")
                         graveyard.append("王子")
                     attack_success = False
+                    print("%sは騎士1枚と王子2枚を捨てて防御しました" %opponent.name)
                 else:
                     pass
 
         if attack_success == True:
             if player.ptype == "human":
-                    check = 0
-                    while check == 0:
-                        discard_type = input("どのカードを捨てさせますか？\n")
-                        if discard_type in opponent.hand:
-                            player.point += min(opponent.point, opponent.hand.count(discard_type))
-                            opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
-                            for i in range(opponent.hand.count(discard_type)):
-                                opponent.hand.remove(discard_type)
-                                graveyard.append(discard_type)
-                            check = 1
-                                
-                        else:
-                            print("手札にあるカードの中から選んでください。\n")
+                check = 0
+                while check == 0:
+                    print(opponent.hand)
+                    discard_type = input("どのカードを捨てさせますか？\n")
+                    if discard_type in opponent.hand:
+                        player.point += min(opponent.point, opponent.hand.count(discard_type))
+                        opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
+                        for i in range(opponent.hand.count(discard_type)):
+                            opponent.hand.remove(discard_type)
+                            graveyard.append(discard_type)
+                        check = 1
+                            
+                    else:
+                        print("手札にあるカードの中から選んでください。\n")
 
             else:
                 discard_type = attack_priority(player, opponent, library, graveyard)
@@ -220,13 +228,13 @@ def discard_three_knight(player, opponent, library, graveyard):
 
         else:
             pass
-                
+        
 #騎士2枚王子2枚捨てて攻撃
 def discard_two_knight_two_prince(player, opponent, library, graveyard):
 
         from AI import block_tend
 
-        print("%sは3枚の騎士を捨てて攻撃しました" %player.name)
+        print("%sは騎士2枚と王子2枚を捨てて攻撃しました" %player.name)
         for i in 3:
             player.hand.remove("騎士")
             graveyard.append("騎士")
@@ -237,12 +245,13 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
 
         if opponent.ptype == "human":
             if opponent.hand.count("騎士") >= 2:
-                block = input("防御を行いますか？ 0. はい  1. いいえ")
+                block = input("防御しますか？ 0.騎士2枚で防御  1.防御しない")
                 if block == "0":
                     for i in range(2):
                         opponent.hand.remove("騎士")
                         graveyard.append("騎士")
                     attack_success = False
+                    print("%sは騎士2枚を捨てて防御しました" %opponent.name)
                 else:
                     pass
             else:
@@ -256,24 +265,26 @@ def discard_two_knight_two_prince(player, opponent, library, graveyard):
                         opponent.hand.remove("騎士")
                         graveyard.append("騎士")
                     attack_success = False
+                    print("%sは騎士2枚を捨てて防御しました" %opponent.name)
                 else:
                     pass
 
         if attack_success == True:
             if player.ptype == "human":
-                    check = 0
-                    while check == 0:
-                        discard_type = input("どのカードを捨てさせますか？\n")
-                        if discard_type in opponent.hand:
-                            player.point += min(opponent.point, opponent.hand.count(discard_type))
-                            opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
-                            for i in range(opponent.hand.count(discard_type)):
-                                opponent.hand.remove(discard_type)
-                                graveyard.append(discard_type)
-                            check = 1
-                                
-                        else:
-                            print("手札にあるカードの中から選んでください。\n")
+                check = 0
+                while check == 0:
+                    print(opponent.hand)
+                    discard_type = input("どのカードを捨てさせますか？\n")
+                    if discard_type in opponent.hand:
+                        player.point += min(opponent.point, opponent.hand.count(discard_type))
+                        opponent.point -= min(opponent.point, opponent.hand.count(discard_type))
+                        for i in range(opponent.hand.count(discard_type)):
+                            opponent.hand.remove(discard_type)
+                            graveyard.append(discard_type)
+                        check = 1
+                            
+                    else:
+                        print("手札にあるカードの中から選んでください。\n")
 
             else:
                 discard_type = attack_priority(player, opponent, library, graveyard)
