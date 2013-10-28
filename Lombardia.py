@@ -37,6 +37,8 @@ while p1.point < 10 and p2.point < 10:
 
 #player1のターン
     if p1.APNAP == "AP":
+
+        #人間用
         if p1.ptype == "human":
 
             action_list = []
@@ -45,22 +47,31 @@ while p1.point < 10 and p2.point < 10:
             general_draw(p1, p2, library, graveyard)
             print(p1.hand)
             action_preview(p1, action_list)
-            actionkey = 99
 
+            #actionkeyの初期化
+            actionkey = 99
+            
+            #行動フェイズ
             while True:
+                #手札内容から可能な行動のリストを作製
                 action_list = []
                 action_preview(p1,action_list)
                 print("%sの勝利点%s\n%sの勝利点%s\n" %(p1.name, p1.point, p2.name, p2.point))
                 p1.showinfo
                 p2.showinfo
                 p1.hand.sort
+                print(p1.hand)
                 for i in action_list:
                     print(i)
+                #行動の選択
                 actionkey = input("行動を選んでください(0でターン終了)。\n")
                 if actionkey == "0":
                     break
+                else:
+                    pass
                 action(p1, p2, library, graveyard, actionkey)
-                print(p1.hand)
+
+            #ディスカードフェイズ    
             if len(p1.hand) >= 8:
                while len(p1.hand) > 4:
                    print(p1.hand)
@@ -70,17 +81,23 @@ while p1.point < 10 and p2.point < 10:
                        graveyard.append(discard)
                    else:
                        print("手札にあるカードを選んでください")
+
+        #COM用
         else:
             general_draw(p1, p2, library, graveyard)
             action_priority(p1, p2, library, graveyard)
 
             while len(p1.hand) >= 8:
                 discard_priority(p1, p2, library, graveyard)
-                    
+
+        #revealの初期化とAPNAPの交換                    
         p1.reveal = 0
-            
         p1.APNAP = "NAP"
         p2.APNAP = "AP"
+
+        #カード増殖バグ監視用に山札と捨て札の枚数をチェック
+        print(len(library))
+        print(len(graveyard))
         
 
 
