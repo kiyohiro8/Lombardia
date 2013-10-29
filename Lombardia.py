@@ -35,102 +35,66 @@ for i in range(5):
 
 while p1.point < 10 and p2.point < 10:
 
-#player1のターン
+    #APNAPによるplayer-opponentの割り当て
     if p1.APNAP == "AP":
-        if p1.ptype == "human":
-
-            action_list = []
-
-    #カードを引くフェイズ
-            general_draw(p1, p2, library, graveyard)
-            print(p1.hand)
-            action_preview(p1, action_list)
-            actionkey = 99
-
-            while True:
-                action_list = []
-                action_preview(p1,action_list)
-                print("%sの勝利点%s\n%sの勝利点%s\n" %(p1.name, p1.point, p2.name, p2.point))
-                p1.showinfo
-                p2.showinfo
-                p1.hand.sort
-                for i in action_list:
-                    print(i)
-                actionkey = input("行動を選んでください(0でターン終了)。\n")
-                if actionkey == "0":
-                    break
-                action(p1, p2, library, graveyard, actionkey)
-                print(p1.hand)
-            if len(p1.hand) >= 8:
-               while len(p1.hand) > 4:
-                   print(p1.hand)
-                   discard = input("捨てるカードを選んでください")
-                   if discard in p1.hand:
-                       p1.hand.remove(discard)
-                       graveyard.append(discard)
-                   else:
-                       print("手札にあるカードを選んでください")
-        else:
-            general_draw(p1, p2, library, graveyard)
-            action_priority(p1, p2, library, graveyard)
-
-            while len(p1.hand) >= 8:
-                discard_priority(p1, p2, library, graveyard)
-                    
-        p1.reveal = 0
-            
-        p1.APNAP = "NAP"
-        p2.APNAP = "AP"
-        
-
-
-#player2のターン
+        player = p1
+        opponent = p2
     else:
-        if p2.ptype == "human":
+        player = p2
+        opponent = p1
+    #ドロー
+    print(player.hand)
+    general_draw(player, opponent, library, graveyard)
+    player.hand.sort()
+    opponent.hand.sort()
 
+    #行動（人間用）
+    if player.ptype == "human":
+        while True:
             action_list = []
+            action_preview(player, action_list)
 
-    #カードを引くフェイズ
-            general_draw(p2, p1, library, graveyard)
-            print(p1.hand)
-            action_preview(p2, action_list)
             actionkey = 99
+            player.showinfo()
+            opponent.showinfo()
 
-            while True:
-                action_list = []
-                action_preview(p1,action_list)
-                print("%sの勝利点%s\n%sの勝利点%s\n" %(p2.name, p2.point, p1.name, p1.point))
-                p2.showinfo
-                p1.showinfo
-                p2.hand.sort
-                for i in action_list:
-                    print(i)
-                actionkey = input("行動を選んでください(0でターン終了)。\n")
-                if actionkey == "0":
-                    break
-                action(p2, p1, library, graveyard, actionkey)
-                print(p1.hand)
-            if len(p2.hand) >= 8:
-               while len(p2.hand) > 4:
-                   print(p2.hand)
+            print(player.hand)
+            for i in action_list:
+                print(i)
+            #行動の選択
+            actionkey = input("行動を選んでください(0でターン終了)。\n")
+            if actionkey == "0":
+                break
+            else:
+                pass
+            action(player, opponent, library, graveyard, actionkey)
+
+            #ディスカードフェイズ    
+            if len(player.hand) >= 8:
+               while len(player.hand) > 4:
+                   print(player.hand)
                    discard = input("捨てるカードを選んでください")
-                   if discard in p2.hand:
-                       p2.hand.remove(discard)
+                   if discard in player.hand:
+                       player.hand.remove(discard)
                        graveyard.append(discard)
                    else:
                        print("手札にあるカードを選んでください")
-        else:
-            general_draw(p2, p1, library, graveyard)
-            action_priority(p2, p1, library, graveyard)
+            else:
+                pass
 
-            while len(p2.hand) >= 8:
-                discard_priority(p2, p1, library, graveyard)
-                    
-        p2.reveal = 0
-            
-        p2.APNAP = "NAP"
-        p1.APNAP = "AP"
-        
+
+    #行動(COM用)
+    else:
+        general_draw(player, opponent, library, graveyard)
+        action_priority(player, opponent, library, graveyard)
+
+        while len(player.hand) >= 8:
+            discard_priority(player, opponent, library, graveyard)
+
+    #APNAPの入れ替え
+    player.APNAP = "NAP"
+    opponent.APNAP = "AP"
+    
 
 if p1.point >= 10:
     print("%sの勝利です" %p1.name)
