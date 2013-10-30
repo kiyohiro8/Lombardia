@@ -50,6 +50,12 @@ while p1.point < 10 and p2.point < 10:
     #行動（人間用）
     if player.ptype == "human":
         while True:
+
+            if player.point > 10:
+                break
+            else:
+                pass
+            
             action_list = []
             action_preview(player, action_list)
 
@@ -66,25 +72,25 @@ while p1.point < 10 and p2.point < 10:
                 break
             else:
                 pass
+                
             action(player, opponent, library, graveyard, actionkey)
 
             #ディスカードフェイズ    
-            if len(player.hand) >= 8:
-               while len(player.hand) > 4:
-                   print(player.hand)
-                   discard = input("捨てるカードを選んでください")
-                   if discard in player.hand:
-                       player.hand.remove(discard)
-                       graveyard.append(discard)
-                   else:
-                       print("手札にあるカードを選んでください")
-            else:
-                pass
+        if len(player.hand) >= 8:
+            while len(player.hand) > 4:
+                print(player.hand)
+                discard = input("捨てるカードを選んでください")
+                if discard in player.hand:
+                    player.hand.remove(discard)
+                    graveyard.append(discard)
+                else:
+                    print("手札にあるカードを選んでください")
+        else:
+            pass
 
 
     #行動(COM用)
     else:
-        general_draw(player, opponent, library, graveyard)
         action_priority(player, opponent, library, graveyard)
 
         while len(player.hand) >= 8:
