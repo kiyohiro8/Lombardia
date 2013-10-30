@@ -3,8 +3,8 @@
 #捨て札を山札に混ぜて切り直す関数
 def reshuffle(library, graveyard):
     import random
-    while len(graveyard) > 0:
-        library.append(graveyard.pop())
+    library.extend(graveyard)
+    graveyard = []
     random.shuffle(library)    
 
 #一般ドロー関数の定義
