@@ -43,8 +43,6 @@ while p1.point < 10 and p2.point < 10:
         player = p2
         opponent = p1
     #ドロー
-    if player.ptype == "human"
-        print(player.hand)
     general_draw(player, opponent, library, graveyard)
     player.hand.sort()
     opponent.hand.sort()
@@ -91,6 +89,8 @@ while p1.point < 10 and p2.point < 10:
 
         while len(player.hand) >= 8:
             discard_priority(player, opponent, library, graveyard)
+
+    player.reveal = 0
 
     #APNAPの入れ替え
     player.APNAP = "NAP"
