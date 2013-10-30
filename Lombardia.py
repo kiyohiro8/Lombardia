@@ -43,7 +43,8 @@ while p1.point < 10 and p2.point < 10:
         player = p2
         opponent = p1
     #ドロー
-    print(player.hand)
+    if player.ptype == "human"
+        print(player.hand)
     general_draw(player, opponent, library, graveyard)
     player.hand.sort()
     opponent.hand.sort()
